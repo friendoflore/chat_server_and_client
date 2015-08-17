@@ -132,7 +132,7 @@ http://beej.us/guide/bgipc/output/html/multipage/signals.html
 	the SIGINT signal raised on the chat server.
 
 
-##### C.How do I capture SIGINT in Python?
+##### C. How do I capture SIGINT in Python?
 Responding user: Matt J on July 10, 2009, edited by user Tim Tisdall March 11, 2014<br />
 http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
 
