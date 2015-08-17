@@ -1,14 +1,12 @@
-I. File list
-------------
-chatserver.c			Chat Server Implementation
-chatclient.py			Chat Client Implementation
-README 					This file
+## I. File list
+chatserver.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chat Server Implementation<br />
+chatclient.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chat Client Implementation<br />
+README.md&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This file<br />
 
 
-II. Program Instructions
-------------------------
+## II. Program Instructions
 
-A. Running the program and establishing a connection
+#### A. Running the program and establishing a connection
 
 The program is built by running the chat server and then the chat client.
 Given the compile syntax of "gcc -o chatserver chatserver.c", the chat server
@@ -41,7 +39,7 @@ Upon a successful connection to the server, the client is notified that the
 connection has occurred at the specified host name and port number.
 
 
-B. Communication between the server and client
+#### B. Communication between the server and client
 
 The client then must provide a username by which their messages sent to the
 server will be identified. This username is prepended to all messages sent by
@@ -60,7 +58,7 @@ one another for the program to behave as expected. For non-alternating
 messages, the program's function is undefined.
 
 
-C. Closing a connection using messages
+#### C. Closing a connection using messages
 
 If the server sends or receives a message of "\quit", the server closes its 
 connection and remains open to receive additional connections from other 
@@ -72,7 +70,7 @@ If the client sends or receives a message of "\quit", the client closes its
 connection and the client program exits.
 
 
-D. Closing a connection using SIGINT
+#### D. Closing a connection using SIGINT
 
 If a SIGINT is raised on the server (e.g. receives "Ctrl-C" command), the
 server sends a "\quit" message to the client. As above, this "\quit" message
@@ -93,12 +91,11 @@ exited program, at which point that message will be lost and the connection
 will be closed as specified above. 
 
 
-III. References
----------------
+## III. References
 
-A.	Beej's Guide to Network Programming | Using Internet Sockets
-	Brian "Beej Jorgensen" Hall
-	http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html
+##### A. Beej's Guide to Network Programming | Using Internet Sockets
+Brian "Beej Jorgensen" Hall<br />
+http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html
 
 	1. This resource was used for proper syntax and structure for a program
 	implementing internet sockets to accomplish network programming tasks.
@@ -120,9 +117,9 @@ A.	Beej's Guide to Network Programming | Using Internet Sockets
 	operation outlined in II.A-D. 
 
 
-B.	Beej's Guide to Unix IPC | Section 3 Signals
-	Brain "Beej Jorgensen" Hall
-	http://beej.us/guide/bgipc/output/html/multipage/signals.html
+##### B. Beej's Guide to Unix IPC | Section 3 Signals
+Brain "Beej Jorgensen" Hall<br />
+http://beej.us/guide/bgipc/output/html/multipage/signals.html
 
 	1. This resource was used for proper syntax and structure for a program
 	implementing signal handling.
@@ -134,10 +131,9 @@ B.	Beej's Guide to Unix IPC | Section 3 Signals
 	the SIGINT signal raised on the chat server.
 
 
-C. How do I capture SIGINT in Python?
-	Responding user: Matt J on July 10, 2009, edited by user Tim Tisdall
-		March 11, 2014
-	http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
+##### C.How do I capture SIGINT in Python?
+Responding user: Matt J on July 10, 2009, edited by user Tim Tisdall March 11, 2014<br />
+http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
 
 	1. This resource was used to understand how to register a signal handler
 	in Python.
@@ -146,10 +142,10 @@ C. How do I capture SIGINT in Python?
 	signal raised on the chat client.
 
 
-D. CS 372 Lecture #15 | Socket Programming Primer
-	Oregon State University, Summer 2015
-	https://courses.ecampus.oregonstate.edu/index.php?video=cs372/15.mp4
-		(login required)
+##### D. CS 372 Lecture #15 | Socket Programming Primer
+Oregon State University, Summer 2015<br />
+https://courses.ecampus.oregonstate.edu/index.php?video=cs372/15.mp4<br />
+&nbsp;&nbsp;&nbsp;(login required)
 
 	1. This resource was used for proper syntax and structure for a program
 	implementing internet sockets to accomplish network programming tasks.
@@ -166,14 +162,7 @@ D. CS 372 Lecture #15 | Socket Programming Primer
 	II.A-D.
 
 
-E.	https://courses.cs.washington.edu/courses/cse326/02wi/homework/hw5/README-3.txt
-
-	1. This resource was used as a template example of how to structure a README
-	file.
-
-
-IV. Testing Notes
------------------
+## IV. Testing Notes
 
 While testing this program using the "localhost" as the server IP address, the 
 server and the client must be located on the same server. This means that while
