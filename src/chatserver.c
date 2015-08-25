@@ -164,91 +164,104 @@ int main(int argc, char *argv[]) {
 		// variables that will be populated with the client information
 		new_fd = accept(s, (struct sockaddr *)&their_addr, &addr_size);
 
-		fdHolder = new_fd;
-		addr_size = sizeof their_addr;
-
-		// If accepting the connection fails
 		if(new_fd == -1) {
 			perror("server accept failure");
 			continue;
 		}
 
-		// This puts the IP address as a string in the "inaddr" variable
-		// Here, I am assuming that we are using IPv4 to simplify the printing 
-		// of the client's IP information
-		inet_ntop(AF_INET, &(((struct sockaddr_in*)(struct sockadrr *)&their_addr)->sin_addr), inaddr, sizeof inaddr);
-		printf("Server connected to client at %s\n", inaddr);
-		printf("Wait for client message and then respond.\n");
-		printf("The server and client must alternate in their communication.\n");
+		pid_t spawnpid;
+		spawnpid = fork();
 
-		// This will store the incoming message from the client
-		char * message = (char *)malloc(sizeof(char) * 1000);
-		int received;
+		if(spawnpid == 0) {
 
-		// While the server receives messages successfully 
-		while((received = recv(new_fd, message, 1000, 0))) {
+			fdHolder = new_fd;
+			addr_size = sizeof their_addr;
 
-			// If the message "\quit" is given from the client
-			if(strncmp(message, "\\quit", 3) == 0) {
-				printf("Client closing connection...\n");
-				printf("Server closing connection...\n");
+			// If accepting the connection fails
 
-				// Close the connection
-				if(close(new_fd) == 0) {
-					printf("Server waiting on Port %s...\n", PORT);
-				} else {
-					perror("server close failure");
-				}
+			// This puts the IP address as a string in the "inaddr" variable
+			// Here, I am assuming that we are using IPv4 to simplify the printing 
+			// of the client's IP information
+			inet_ntop(AF_INET, &(((struct sockaddr_in*)(struct sockadrr *)&their_addr)->sin_addr), inaddr, sizeof inaddr);
+			printf("Server connected to client at %s\n", inaddr);
+			printf("Wait for client message and then respond.\n");
+			printf("The server and client must alternate in their communication.\n");
 
-				// Stop receiving messages
-				break;
-			}
+			// This will store the incoming message from the client
+			char * message = (char *)malloc(sizeof(char) * 1000);
+			int received;
 
-			// Print the client's message. The client sends their message prepended
-			// with their selected username
-			printf("%s\n", message);
+			// While the server receives messages successfully 
+			while((received = recv(new_fd, message, 1000, 0))) {
 
-			// Clear the message contents after printing it to prepare for more
-			// messages
-			message = (char *)malloc(sizeof(char) * 1000);
-
-			// These will be used for the server's message to the client. The
-			// server's handle, which is defined above, will prepend their message
-			// to the client as well
-			char *inputString = (char *)malloc(sizeof(char *) * 1000);
-			char *tmpString = (char *)malloc(sizeof(char *) * 1000);
-			printf("%s> ", HANDLE);
-
-			// If the server enters text
-			if(fgets(inputString, 1000, stdin)) {
-
-				// If the server's message is "\quit"
-				if(strncmp(inputString, "\\quit", 5) == 0) {
-
-					// Send a closing message to the client
-					int close_message = send(new_fd, inputString, 1000, 0);	
-
-					printf("Server closing connection...\n");
+				// If the message "\quit" is given from the client
+				if(strncmp(message, "\\quit", 3) == 0) {
 					printf("Client closing connection...\n");
+					printf("Server closing connection...\n");
 
 					// Close the connection
 					if(close(new_fd) == 0) {
 						printf("Server waiting on Port %s...\n", PORT);
+						exit(0);
 					} else {
-						perror("server close failure");	
+						perror("server close failure");
 					}
+
+					// Stop receiving messages
 					break;
 				}
 
-				// Prepend "<handle>> " to the message using the temporary string
-				strcpy(tmpString, HANDLE);
-				strcat(tmpString, "> ");
-				strcat(tmpString, inputString);
+				// Print the client's message. The client sends their message prepended
+				// with their selected username
+				printf("%s\n", message);
 
-				// Send the message to the client	
-				int newmessage = send(new_fd, tmpString, 500, 0); 
+				// Clear the message contents after printing it to prepare for more
+				// messages
+				message = (char *)malloc(sizeof(char) * 1000);
+
+				// These will be used for the server's message to the client. The
+				// server's handle, which is defined above, will prepend their message
+				// to the client as well
+				char *inputString = (char *)malloc(sizeof(char *) * 1000);
+				char *tmpString = (char *)malloc(sizeof(char *) * 1000);
+				printf("%s> ", HANDLE);
+
+				// If the server enters text
+				if(fgets(inputString, 1000, stdin)) {
+
+					// If the server's message is "\quit"
+					if(strncmp(inputString, "\\quit", 5) == 0) {
+
+						// Send a closing message to the client
+						int close_message = send(new_fd, inputString, 1000, 0);	
+
+						printf("Server closing connection...\n");
+						printf("Client closing connection...\n");
+
+						// Close the connection
+						if(close(new_fd) == 0) {
+							printf("Server waiting on Port %s...\n", PORT);
+							exit(0);
+						} else {
+							perror("server close failure");	
+						}
+						break;
+					}
+
+					// Prepend "<handle>> " to the message using the temporary string
+					strcpy(tmpString, HANDLE);
+					strcat(tmpString, "> ");
+					strcat(tmpString, inputString);
+
+					// Send the message to the client	
+					int newmessage = send(new_fd, tmpString, 500, 0); 
+				}
+				
 			}
-			
+		} else if(spawnpid > 0) {
+			continue;
+		} else {
+			printf("The fork failed.\n");
 		}
 	}
 
