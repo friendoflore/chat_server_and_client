@@ -27,9 +27,15 @@ from a client, which is shown in the console. If a connection is established,
 the server user is notified of the connecting IP address and told to wait for
 the client's first message.
 
+The client is implemented in both Python and Java. If using the Java
+implementation, compile the client program; running the program is addressed
+below.
+
 The chat client is run using the syntax:
 
  	"python chatclient.py <host name> <port number>"
+ 	- or -
+ 	"java Foo <host name> <port number>"
 
 where the host name used during testing is written as either "localhost" or
 specified by the IP address "127.0.0.1". The port number must match the port
